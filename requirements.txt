@@ -1,0 +1,4 @@
+transformers==4.38.0
+ml_collections
+fschat==0.2.23
+nltk
