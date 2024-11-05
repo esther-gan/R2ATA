@@ -32,30 +32,22 @@ Please follow the instructions to download Vicuna-7B or/and LLaMA-2-7B-Chat firs
 
 ## Experiments 
 
-The `experiments` folder contains code to reproduce GCG experiments on GSM8K.
+The `experiments` folder contains code to reproduce our experimental results on GSM8K, BBH, and MMLU.
 
-- To run individual experiments with harmful behaviors and harmful strings (i.e. 1 behavior, 1 model or 1 string, 1 model), run the following code inside `experiments` (changing `vicuna` to `llama2` and changing `behaviors` to `strings` will switch to different experiment setups):
-
-```bash
-cd launch_scripts
-bash run_gcg_individual.sh vicuna behaviors
-```
-
-- To perform multiple behaviors experiments (i.e. 25 behaviors, 1 model), run the following code inside `experiments`:
+As a general guideline, please run the following code to run the script:
 
 ```bash
 cd launch_scripts
-bash run_gcg_multiple.sh vicuna # or llama2
+bash cotrobust.sh mistral gsm8k 10 4 4 0
 ```
 
-- To perform transfer experiments (i.e. 25 behaviors, 2 models), run the following code inside `experiments`:
-
-```bash
-cd launch_scripts
-bash run_gcg_transfer.sh vicuna 2 # or vicuna_guanaco 4
-```
-
-- To perform evaluation experiments, please follow the directions in `experiments/parse_results.ipynb`.
+These are the following arguments (in order):
+- model: Victim model ('mistral', 'gemma' or 'llama')
+- test_set: Dataset to be edited ('gsm8k', 'bbh' or 'mmlu')
+- n_train_data: Sampled number of each topic
+- n_steps: Number of adversarial typographical edits on each question
+- batch_size
+- few_shot: Number of examples to be used in the prompt
 
 Notice that all hyper-parameters in our experiments are handled by the `ml_collections` package [here](https://github.com/google/ml_collections). You can directly change those hyper-parameters at the place they are defined, e.g. `experiments/configs/individual_xxx.py`. However, a recommended way of passing different hyper-parameters -- for instance you would like to try another model -- is to do it in the launch script. Check out our launch scripts in `experiments/launch_scripts` for examples. For more information about `ml_collections`, please refer to their [repository](https://github.com/google/ml_collections).
 
